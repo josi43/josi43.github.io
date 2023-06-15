@@ -1,23 +1,35 @@
-import { useContext } from 'react'
-import { NavLink, useNavigate } from "react-router-dom"
-import UserContext from '../contexts/UserContext'
-import './Navbar.css'
+import React from "react";
+//import logo from "../../assets/logo3.png";
+import { useState, state } from "react";
+import { Logo } from "./Logo";
+import { Link, useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
-export default function Navbar() {
-  const { userId, handleLogout } = useContext(UserContext)
-  const navigate = useNavigate()
+export default function NavBar({ items }){
 
-  async function handleClick() {
-    await handleLogout()
-    navigate("/")
+  const [menu, setMenu] = useState(false);
+  function handleClick() {
+    menu ? setMenu(false) : setMenu(true);
+    console.log("clicou");
   }
+ 
 
   return (
-    <ul>
-      <li><NavLink to="/">Home</NavLink></li>
-      <li><NavLink to="/novo">Nova Tarefa</NavLink></li>
-      <li><NavLink to={`/perfil/${userId}`}>Perfil</NavLink></li>
-      <button onClick={handleClick}>Sair</button>
-    </ul>
-  )
-}
+    <>
+      <nav className="NavbarItems">
+        <Logo/>
+        <h1>Movie List</h1>
+        <div className="menu-icon" onClick={handleClick}>
+          <i className={menu ? "fa-solid fa-x" : "fa-solid fa-bars"}></i>
+        </div>
+        <ul className={menu ? "nav-menu active" : "menu-icon"}>
+          {items.map((item, index) => (
+            <li key={index} className={menu ? `active ${item.cName}` : "nav-links"}>
+              <Link to={item.ref} >{item.title}</Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </>
+  );
+};

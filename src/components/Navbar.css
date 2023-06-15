@@ -1,9 +1,71 @@
-ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-    justify-content: space-around;
+.NavbarItems {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1.2rem;
+  top: 0;
+  z-index: 1;
+}
+
+img {
+  width: 80px;
+  margin: 0;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  height: 20px;
+  position: fixed;
+  top: 110px;
+  right: 0; /* Positioning the menu on the right corner */
+  opacity: 1;
+  transition: all 0.5s ease;
+}
+
+.nav-menu.active {
+  align-items: center;
+  background-color: #515952;
+  opacity: 1;
+  transition: all 0.5s ease;
+  z-index: 1;
+  width: 15%;
+  height: 35vh; /* Set the increased height for the active menu */
+
+}
+
+.menu-icon {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(-100%, 60%);
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: none;
+}
+
+.active {
+  display: block;
+}
+
+.active.links {
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+}
+
+.fa-solid.fa-user:hover {
+  color: white;
+  cursor: pointer;
 }
