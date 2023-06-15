@@ -1,4 +1,4 @@
-import { urlApi } from "./FirebaseConfig"
+import { app } from "./FirebaseConfig"
 
 export async function listaTarefas() {
     await fetch(urlApi)

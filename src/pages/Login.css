@@ -5,3 +5,102 @@
   justify-content: center;
   align-items: center;
 }
+.caixa {
+  background-color: #ffffff;
+  width: 28rem;
+  height: 31  em;
+  margin-top: 10rem;
+  border-radius: 50px;
+  padding:30px;   
+}
+.centro {
+  display:flex;
+  justify-content: center;
+}
+.logo {
+width: 100px;
+margin:0
+}
+a {
+text-decoration: underline;
+color:black
+}
+a:hover{
+color:blue;
+cursor: pointer;
+}
+.esquerda {
+display: flex;
+justify-content: left;
+}
+
+.input-container {
+  height: 50px;
+  position: relative;
+  width: 100%;
+}
+
+.ic1 {
+  margin-top: 40px;
+}
+
+
+.input {
+  background-color: white;
+  border-radius: 0;
+  border-top: 0;
+  border-left:0;
+  border-right: 0;
+  border-bottom: 2;
+  box-sizing: border-box;
+  color: black;
+  font-size: 18px;
+  height: 100%;
+  outline: 0;
+  padding: 4px 20px 0;
+  width: 100%;
+}
+
+
+
+.cut-short {
+  width: 50px;
+}
+
+.submit {
+  background-color: #00ff5f;
+  border-radius: 12px;
+  border: 0;
+  font-weight: bold;
+  box-sizing: border-box;
+  color: black;
+  cursor: pointer;
+  font-size: 18px;
+  height: 50px;
+  margin-top: 38px;
+  outline: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.submit:active {
+  background-color: white;
+}
+.forgot {
+  display: block;
+  text-align: center;
+  margin: 20px 0 0;
+  color: #4c4d56;
+  font-size:14px;
+}
+
+.manin{
+margin: 0;
+background-color:#00ff5f;
+padding: 37px;
+}
+body{
+margin:0;
+padding:0;
+
+}
