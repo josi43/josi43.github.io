@@ -1,5 +1,5 @@
 // UserContext.js
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
 import { login, logout, signup } from '../services/AuthService'
 
 const UserContext = createContext({
@@ -11,7 +11,17 @@ const UserContext = createContext({
 })
 
 export function UserContextProvider(props) {
-  const [currentUser, setCurrentUser] = useState({ userId: null, logado: false })
+  const [currentUser, setCurrentUser] = useState(() => {
+    const storedUserId = localStorage.getItem('userId')
+    const storedLogado = localStorage.getItem('logado')
+    return { userId: storedUserId, logado: storedLogado === 'true' }
+  })
+
+  useEffect(() => {
+    // Ao atualizar o estado currentUser, atualize também o localStorage
+    localStorage.setItem('userId', currentUser.userId)
+    localStorage.setItem('logado', currentUser.logado)
+  }, [currentUser])
 
   async function handleLogin(email, senha) {
     try {
