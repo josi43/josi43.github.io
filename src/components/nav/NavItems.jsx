@@ -1,36 +1,27 @@
 
 
 export const NavItems = [
+    
     {
-        title:'',
-        cName:'fa-solid fa-user links fa-2xl',
-        ref:'/user'
+        title:'Filmes',
+        cName: 'links',
+        ref:'/home'
     },
     {
-        title:'Home',
+        title:'Meus Filmes',
         cName: 'links',
-        ref:'/login'
-    },
-    {
-        title:'Minha Lista',
-        cName: 'links',
-        ref:'/user'
+        ref:'/',
+        func: 'nada'
 
     },
     {
-        title:'Configuracoes',
-        cName:'links',
-        ref:'/config'
-
-    },
-    {
-        title:' Sair',
-        cName:'fa-solid fa-right-from-bracket links ',
-        ref:'/'
-    }
+        title: 'Sair',
+        cName: 'fa-solid fa-right-from-bracket links',
+        ref: '/',
+        func: 'handleLogout'
+      }
+      
 
 
 
 ]
-/*
-    }*/

@@ -1,0 +1,34 @@
+.secao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+  }
+  
+  .carousel-wrapper {
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .carousel-wrapper .slick-slider {
+    position: relative;
+  }
+  
+  .carousel-wrapper .slick-list {
+    overflow: hidden;
+  }
+  
+  .carousel-wrapper .slick-slide {
+    float: none !important;
+    margin: 0 auto;
+  }
+  
+  .legend {
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    text-align: center;
+  }
+  

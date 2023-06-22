@@ -1,0 +1,78 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.search-container {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 5rem;
+  margin-top: 1rem;
+}
+.opcao {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 5rem;
+  margin-top: 1rem;
+}
+.search-input {
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  padding: 0.3rem 0.6rem; /* Reduzimos o padding para diminuir o tamanho da barra de pesquisa */
+  font-size: 0.9rem; /* Diminuímos o tamanho da fonte para uma aparência mais compacta */
+  width: 150px; /* Define o tamanho desejado da barra de pesquisa */
+}
+
+.movie {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  width: 250px;
+  background-color: #f8f8f8;
+  margin: 1rem;
+  border-radius: 5px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie .poster {
+  width: 100%;
+  height: auto;
+  transition: filter 0.3s ease-in-out;
+}
+
+.movie .poster:hover {
+  filter: brightness(1.2);
+}
+
+.teste {
+  display: flex;
+  flex-direction: column;
+}
+
+.navigation {
+  display: flex;
+  list-style-type: none;
+  margin-right: 1rem;
+}
+
+.navigation li {
+  margin-right: 1rem;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1rem;
+  color: #000;
+  cursor: pointer;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { app } from "../services/FirebaseConfig";
 import {
   getFirestore,
@@ -7,28 +7,60 @@ import {
   getDocs,
   deleteDoc,
   doc,
+  query,
+  where,
 } from "firebase/firestore";
 import "./Carousel.css";
+import UserContext from "../contexts/UserContext";
 
 const App = () => {
+  const { userId } = useContext(UserContext);
+  const [filmes, setFilmes] = useState([]);
   const [watchedMovies, setWatchedMovies] = useState([]);
   const [watchlistMovies, setWatchlistMovies] = useState([]);
   const [watchedMovieName, setWatchedMovieName] = useState("");
   const [watchedMovieRating, setWatchedMovieRating] = useState("");
   const [watchlistMovieName, setWatchlistMovieName] = useState("");
   const [streamingPlatform, setStreamingPlatform] = useState("");
-  const [filmes, setFilmes] = useState([]);
 
   const db = getFirestore(app);
   const filmesCollection = collection(db, "filmes");
 
   useEffect(() => {
     const getFilmes = async () => {
-      const data = await getDocs(filmesCollection);
-      setFilmes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      if (!userId) {
+        setFilmes([]);
+        setWatchedMovies([]);
+        setWatchlistMovies([]);
+        return;
+      }
+
+      const q = query(filmesCollection, where("userId", "==", userId));
+
+      try {
+        const data = await getDocs(q);
+        const allFilmes = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+
+        const watchedFilmes = allFilmes.filter(
+          (filme) => filme.type === "watched"
+        );
+        const watchlistFilmes = allFilmes.filter(
+          (filme) => filme.type === "watchlist"
+        );
+
+        setFilmes(allFilmes);
+        setWatchedMovies(watchedFilmes);
+        setWatchlistMovies(watchlistFilmes);
+      } catch (error) {
+        console.error("Erro ao obter filmes: ", error);
+      }
     };
+
     getFilmes();
-  }, []);
+  }, [userId]);
 
   const handleAddWatchedMovie = async () => {
     if (watchedMovieName.trim() === "" || watchedMovieRating.trim() === "") {
@@ -39,11 +71,13 @@ const App = () => {
     const newMovie = {
       name: watchedMovieName,
       rating: watchedMovieRating,
+      userId: userId,
+      type: "watched",
     };
 
     try {
-      const docRef = await addDoc(filmesCollection, { nome: watchedMovieName });
-      setWatchedMovies((prevMovies) => [...prevMovies, { ...newMovie, id: docRef.id }]);
+      await addDoc(filmesCollection, newMovie);
+      setWatchedMovies((prevMovies) => [...prevMovies, { ...newMovie }]);
       setWatchedMovieName("");
       setWatchedMovieRating("");
       alert("Filme assistido adicionado com sucesso!");
@@ -55,14 +89,16 @@ const App = () => {
   const handleDeleteWatchedMovie = async (id) => {
     try {
       await deleteDoc(doc(db, "filmes", id));
-      setWatchedMovies((prevMovies) => prevMovies.filter((movie) => movie.id !== id));
+      setWatchedMovies((prevMovies) =>
+        prevMovies.filter((movie) => movie.id !== id)
+      );
       alert("Filme assistido excluído com sucesso!");
     } catch (error) {
       console.error("Erro ao excluir filme assistido: ", error);
     }
   };
 
-  const handleAddWatchlistMovie = () => {
+  const handleAddWatchlistMovie = async () => {
     if (watchlistMovieName.trim() === "" || streamingPlatform.trim() === "") {
       alert("Por favor, preencha todos os campos.");
       return;
@@ -71,18 +107,31 @@ const App = () => {
     const newMovie = {
       name: watchlistMovieName,
       streamingPlatform,
+      userId: userId,
+      type: "watchlist",
     };
 
-    setWatchlistMovies((prevMovies) => [...prevMovies, newMovie]);
-    setWatchlistMovieName("");
-    setStreamingPlatform("");
-    alert("Filme para assistir adicionado com sucesso!");
+    try {
+      await addDoc(filmesCollection, newMovie);
+      setWatchlistMovies((prevMovies) => [...prevMovies, { ...newMovie }]);
+      setWatchlistMovieName("");
+      setStreamingPlatform("");
+      alert("Filme para assistir adicionado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao adicionar filme para assistir: ", error);
+    }
   };
 
-  const handleDeleteWatchlistMovie = (index) => {
-    const updatedMovies = [...watchlistMovies];
-    updatedMovies.splice(index, 1);
-    setWatchlistMovies(updatedMovies);
+  const handleDeleteWatchlistMovie = async (id) => {
+    try {
+      await deleteDoc(doc(db, "filmes", id));
+      setWatchlistMovies((prevMovies) =>
+        prevMovies.filter((movie) => movie.id !== id)
+      );
+      alert("Filme para assistir excluído com sucesso!");
+    } catch (error) {
+      console.error("Erro ao excluir filme para assistir: ", error);
+    }
   };
 
   const streamingPlatforms = [
@@ -124,16 +173,6 @@ const App = () => {
             </button>
           </div>
         ))}
-        <div>
-          {filmes.map((filme) => (
-            <div key={filme.id}>
-              <p>{filme.nome}</p>
-              <button onClick={() => handleDeleteWatchedMovie(filme.id)}>
-                Excluir
-              </button>
-            </div>
-          ))}
-        </div>
       </div>
       <div className="inputs-container">
         <h2>Filmes para Assistir</h2>
@@ -158,11 +197,11 @@ const App = () => {
       </div>
       <div className="movies-container">
         <h2>Filmes para Assistir</h2>
-        {watchlistMovies.map((movie, index) => (
-          <div className="movie" key={index}>
+        {watchlistMovies.map((movie) => (
+          <div className="movie" key={movie.id}>
             <span>{movie.name}</span>
             <span className="platforms">Plataforma: {movie.streamingPlatform}</span>
-            <button onClick={() => handleDeleteWatchlistMovie(index)}>
+            <button onClick={() => handleDeleteWatchlistMovie(movie.id)}>
               Excluir
             </button>
           </div>

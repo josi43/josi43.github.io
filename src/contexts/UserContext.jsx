@@ -1,4 +1,3 @@
-// UserContext.js
 import { createContext, useState, useEffect } from 'react'
 import { login, logout, signup } from '../services/AuthService'
 
@@ -18,7 +17,6 @@ export function UserContextProvider(props) {
   })
 
   useEffect(() => {
-    // Ao atualizar o estado currentUser, atualize também o localStorage
     localStorage.setItem('userId', currentUser.userId)
     localStorage.setItem('logado', currentUser.logado)
   }, [currentUser])
@@ -61,4 +59,4 @@ export function UserContextProvider(props) {
   )
 }
 
-export default UserContext
+export default UserContext;
